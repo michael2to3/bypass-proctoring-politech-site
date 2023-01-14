@@ -1,0 +1,16 @@
+.title {
+  @apply font-bold;
+}
+
+.desc {
+  @apply text-green-600;
+}
+.label {
+  display: block;
+}
+.label input {
+  @apply m-2.5;
+}
+.label > * {
+  display: inline;
+}
