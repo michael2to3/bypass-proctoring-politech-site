@@ -1,7 +1,9 @@
 import disableMouseEvent from './disableMouseEvent';
 import fakeCamera from './fakeCamera';
 
-const dumm = () => {}
+const dumm = () => {
+  return false;
+};
 const list: Array<Payload> = [
   {
     desc: 'Disable mouse event/unfocus window',
@@ -25,9 +27,9 @@ const list: Array<Payload> = [
     desc: 'Slow down time(not work)',
     name: 'slowDown',
     callback: dumm,
-    isEnable: false
-  }
+    isEnable: false,
+  },
 ];
-list.forEach((item) => item.isEnable = GM_getValue(item.name, false))
+list.forEach((item) => (item.isEnable = GM_getValue(item.name, false)));
 
 export default list;

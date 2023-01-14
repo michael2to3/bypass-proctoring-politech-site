@@ -19,5 +19,4 @@ declare global {
     callback: () => void;
     isEnable: boolean;
   };
-
 }
