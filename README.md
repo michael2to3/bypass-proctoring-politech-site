@@ -9,6 +9,14 @@ This is a userscript initiated from [@violentmonkey/generator-userscript](https:
 
 ![Example](.example/p.png "Main menu")
 
+## How to install?
+U need exntension which can run custom script, here is a small list of similar ext:
+- Violentmonkey (recommend)
+- Greasemonkey
+- Tampermonkey
+
+Install one of list ext, and press link to [build](https://github.com/michael2to3/bypass-proctoring-politech-site/releases/download/Beta/index.user.js) release application and apply user script
+
 ## Development
 
 ``` sh
