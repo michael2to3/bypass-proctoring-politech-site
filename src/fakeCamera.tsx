@@ -1,93 +1,6 @@
-import rawCameraPayload from './rawCameraPayload';
-
-class ServiceCamera {
-  video: HTMLVideoElement;
-  canvas: HTMLCanvasElement;
-  sectionTakePhoto: HTMLElement;
-  capturePhoto: HTMLImageElement;
-  rVideo: Array<string>;
-  interval: NodeJS.Timer;
-  countFrame: number;
-  constructor() {
-    this.video = document.querySelector('#take-photo--video');
-    this.canvas = document.querySelector('#take-photo--canvas');
-    this.canvas.style.display = 'block';
-
-    this.canvas.style.height = '500px';
-    this.canvas.style.width = '500px';
-    this.sectionTakePhoto = document.getElementById('take-photo');
-    this.capturePhoto = document.createElement('img');
-    this.capturePhoto.id = 'take-photo--video';
-    this.rVideo = [];
-    this.countFrame = 5;
-  }
-  public record() {
-    this.visibleReqServer();
-    this.rVideo = [];
-    console.debug('Record start');
-    let index = 0;
-    this.interval = setInterval(() => {
-      this.rVideo.push(this.getFrame());
-      if (++index >= this.countFrame) {
-        console.debug('Record done');
-        clearInterval(this.interval);
-      }
-    }, 1000);
-  }
-  public play(repeat = true) {
-    clearInterval(this.interval);
-    this.visibleReqServer();
-    if (this.rVideo.length != this.countFrame) {
-      console.error(
-        'Frame video corrupt! - ',
-        this.rVideo.length,
-        this.countFrame
-      );
-    }
-    this.video.id = '';
-    this.video.remove();
-    this.sectionTakePhoto.appendChild(this.capturePhoto);
-
-    let index = 0;
-    this.interval = setInterval(() => {
-      this.drawFrame(this.rVideo[index++]);
-      if (index >= this.rVideo.length) {
-        if (!repeat) {
-          clearInterval(this.interval);
-        }
-        index = 0;
-      }
-    }, 1000);
-  }
-  private visibleReqServer() {
-    (
-      document.querySelector('#take-photo') as HTMLTableSectionElement
-    ).style.display = 'block'; // Parent take photo canvas
-  }
-  private drawFrame(base64: string) {
-    const header = 'data:image/jpeg;base64,';
-    this.capturePhoto.src = header + base64;
-    const loadEvent = new Event('loadedmetadata');
-
-    const context = this.canvas.getContext('2d');
-    context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-    // @FIXME
-    setTimeout(() => {
-      console.debug('Dispatch!');
-      this.capturePhoto.dispatchEvent(loadEvent);
-      setTimeout(() => {
-        this.canvas.width = 500;
-        this.canvas.height = 500;
-      }, 1000);
-    }, 5000);
-  }
-  private getFrame() {
-    const image = this.canvas.toDataURL('image/jpeg');
-    const base64 = image.split(',')[1];
-    return base64;
-  }
-}
+import { VNode } from '@gera2ld/jsx-dom';
+import globalCss from './style.css';
+import styles, { stylesheet } from './style.module.css';
 
 const cameraDetect = () => {
   return (
@@ -95,44 +8,107 @@ const cameraDetect = () => {
     document.contains(document.querySelector('.photo-block__header'))
   );
 };
-
-const handlerCamera = () => {
-  console.debug('Camera is found');
-
-  const warningText = document.createElement('span');
-  warningText.innerText = 'Capture is enable';
-  warningText.style.color = 'red';
-
-  const containCamera = document.querySelector('.camera');
-  containCamera.appendChild(warningText);
-
-  const service = new ServiceCamera();
-  const recordButton = document.createElement('button');
-  recordButton.textContent = 'Record';
-  recordButton.onclick = () => {
-    service.record();
-    // @FIXME
-    setTimeout(() => {
-      service.play();
-    }, 1000 * 10);
-  };
-  containCamera.appendChild(recordButton);
-
-  const playButton = document.createElement('button');
-  playButton.textContent = 'Play';
-  playButton.onclick = () => {
-    service.play();
-  };
-  containCamera.appendChild(playButton);
+const getPhoto = () => {
+  const captureId = '#take-photo--video';
+  const canvas: HTMLCanvasElement = document.querySelector(captureId);
+  if (canvas === null || canvas === undefined) {
+    console.error('Nothing to capture');
+  }
+  return canvas.toDataURL('image/jpeg');
 };
-const fakeCamera = () => {
-  console.debug('Fake camera start');
-  const intDetect = setInterval(() => {
-    if (cameraDetect()) {
-      handlerCamera();
-      clearInterval(intDetect);
+const captureVideo = () => {
+  const captureId = '#take-photo--video';
+  const image = document.createElement('img');
+  image.id = captureId;
+  const sectionTakePhoto = document.getElementById('take-photo');
+  sectionTakePhoto.querySelector(captureId).remove();
+  sectionTakePhoto.appendChild(image);
+};
+
+class CaptureVideo {
+  frames: Array<string>;
+  timer: NodeJS.Timer;
+  timeout: number;
+  mincount: number;
+  image: HTMLImageElement;
+  view: HTMLImageElement;
+
+  constructor(view: HTMLImageElement = null, timeout = 1000, mincount = 10) {
+    this.view = view;
+    this.timeout = timeout;
+    this.mincount = mincount;
+    this.frames = [];
+  }
+  public play() {
+    clearInterval(this.timer);
+    let index = 0;
+    if (this.frames.length < this.mincount) {
+      throw new Error('Very short video');
     }
-  }, 100);
-};
+    this.timer = setInterval(() => {
+      const frame = this.frames[index];
+      this.image.src = frame;
+      index++;
+      if (index >= this.frames.length) {
+        index = 0;
+      }
+    }, this.timeout);
+  }
+  public stop() {
+    clearInterval(this.timer);
+  }
+  public record() {
+    clearInterval(this.timer);
+    this.frames = [];
+    setInterval(() => {
+      const photo = getPhoto();
+      this.frames.push(photo);
+      if (this.view !== null) {
+        this.view.src = photo;
+      }
+    }, this.timeout);
+  }
+}
 
+function fakeCamera() {
+  const content = (
+    <>
+      <div class="inline-block">
+        <img class="custom-canvas max-w-md max-h-md" />
+      </div>
+      <div class="inline-block">
+        <button class="start-record">Start record</button>
+        <button class="stop-record">Stop</button>
+        <button class="start-play">Play</button>
+      </div>
+    </>
+  );
+  const panel = VM.getPanel({
+    content: content,
+    theme: 'dark',
+    style: [globalCss, stylesheet].join('\n'),
+  });
+
+  panel.wrapper.style.top = '200px';
+  panel.setMovable(true);
+  panel.show();
+
+  const root = panel.root;
+  const image: HTMLImageElement = root.querySelector('img');
+  const capture = new CaptureVideo(image);
+
+  const btnStartRecord: HTMLButtonElement = root.querySelector('.start-record');
+  const btnStop: HTMLButtonElement = root.querySelector('.stop-record');
+  const btnStartPlay: HTMLButtonElement = root.querySelector('.start-play');
+
+  btnStartRecord.onclick = () => {
+    capture.record();
+  };
+  btnStop.onclick = () => {
+    capture.stop();
+  };
+  btnStartPlay.onclick = () => {
+    capture.play();
+  };
+}
 export default fakeCamera;
