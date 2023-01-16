@@ -1,4 +1,3 @@
-import { VNode } from '@gera2ld/jsx-dom';
 import globalCss from './style.css';
 import styles, { stylesheet } from './style.module.css';
 

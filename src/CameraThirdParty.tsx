@@ -52,7 +52,7 @@ class CameraThirdParty {
     this.nav.getUserMedia(
       { video: true, audio: false },
       (stream) => {
-        this.video.srcObject = new Blob([stream], {type:"video/mp4"});
+        this.video.srcObject = new Blob([stream], { type: 'video/mp4' });
       },
       console.error
     );
