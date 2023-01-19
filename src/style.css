@@ -9,3 +9,6 @@
 .hidden {
   display: none;
 }
+.custom-capture {
+  @apply drop-shadow-2xl;
+}

@@ -8,6 +8,7 @@
 // @version     process.env.VERSION
 // @author      process.env.AUTHOR
 // @require     https://cdn.jsdelivr.net/combine/npm/@violentmonkey/dom@2,npm/@violentmonkey/ui@0.7
+// @require     https://unpkg.com/axios/dist/axios.min.js
 // ==/UserScript==
 
 /**
