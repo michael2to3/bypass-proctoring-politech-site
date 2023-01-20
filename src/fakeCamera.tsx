@@ -1,8 +1,9 @@
 import globalCss from './style.css';
-import styles, { stylesheet } from './style.module.css';
+import { stylesheet } from './style.module.css';
 import ImageStream from './ImageStream';
 import WebcamWrapper from './WrapperWebcam';
 import savePosition from './savePanelPostiotion';
+import hidePanel from './hidePanel';
 
 const startCapture = (image: HTMLImageElement, timeout: number) => {
   const handlerImage = handlerCapture();
@@ -85,6 +86,7 @@ async function fakeCamera() {
   });
 
   savePosition('fakeCameraPanel', panel.wrapper, '264px auto auto 468px');
+  hidePanel('fakeCameraPanel_hide', panel.wrapper);
   panel.setMovable(true);
   panel.show();
 

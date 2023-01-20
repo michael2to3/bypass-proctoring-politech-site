@@ -6,6 +6,7 @@ This script is designed to bypass proctoring measures in online exams. It requir
 - Bypass focus tab: Allows you to open other tabs while taking your exam without being detected.
 - Fake camera: Simulates a live camera feed, so you can take the exam without being monitored.
 - ~~Save session: Automatically saves your exam progress, so you can resume later if needed.~~
+- Hide panel: Panel can be hidden by double clicking on it.
 
 ![Example](.example/p.png "Main menu")
 

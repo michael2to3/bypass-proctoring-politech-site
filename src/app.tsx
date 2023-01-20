@@ -1,9 +1,11 @@
 import panel from './Panel';
 import list from './list';
 import savePosition from './savePanelPostiotion';
+import hidePanel from './hidePanel';
 
 const showPanel = () => {
   savePosition('mainPanel', panel.wrapper, '116px auto auto 156px');
+  hidePanel('mainPanel_hide', panel.wrapper);
 
   panel.setMovable(true);
   panel.show();
