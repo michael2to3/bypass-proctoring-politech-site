@@ -1,8 +1,10 @@
 import panel from './Panel';
 import list from './list';
+import savePosition from './savePanelPostiotion';
 
 const showPanel = () => {
-  panel.wrapper.style.top = '100px';
+  savePosition('mainPanel', panel.wrapper, '116px auto auto 156px');
+
   panel.setMovable(true);
   panel.show();
 };

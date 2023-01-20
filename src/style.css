@@ -12,3 +12,7 @@
 .custom-capture {
   @apply drop-shadow-2xl;
 }
+.custom-canvas {
+  max-width: 300px;
+  max-height: 300px;
+}
