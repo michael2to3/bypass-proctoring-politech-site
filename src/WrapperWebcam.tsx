@@ -40,5 +40,3 @@ export default class WebcamWrapper {
     this.frames = [];
   }
 }
-
-
