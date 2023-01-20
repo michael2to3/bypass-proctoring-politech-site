@@ -1,9 +1,6 @@
 import disableMouseEvent from './disableMouseEvent';
 import fakeCamera from './fakeCamera';
 
-const dumm = () => {
-  return false;
-};
 const list: Array<Payload> = [
   {
     desc: 'Disable mouse event/unfocus window',
@@ -12,11 +9,12 @@ const list: Array<Payload> = [
     isEnable: GM_getValue('disableMouseEvent'),
   },
   {
-    desc: 'Fake camera enable(tested)',
+    desc: 'Fake camera enable',
     name: 'fakeCamera',
     callback: fakeCamera,
     isEnable: false,
   },
+  /*
   {
     desc: 'Remeber session forewer(not work)',
     name: 'saveSession',
@@ -28,7 +26,7 @@ const list: Array<Payload> = [
     name: 'slowDown',
     callback: dumm,
     isEnable: false,
-  },
+  }, */
 ];
 list.forEach((item) => (item.isEnable = GM_getValue(item.name, false)));
 
