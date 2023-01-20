@@ -1,21 +1,27 @@
-# bypass-proctoring-politech-site
+# Proctor Bypass Script
 
-This is a userscript initiated from [@violentmonkey/generator-userscript](https://github.com/violentmonkey/generator-userscript).
+This script is designed to bypass proctoring measures in online exams. It requires the [Violentmonkey](https://violentmonkey.github.io/) extension for your browser (Firefox, Chrome, etc.).
 
 ## Features
-- Bypass event mouse and tabs, now u just open other tab and sip
-- ThirdParty camera record and send to server not real video, bypass proctoring (beta)
-- Save session forewer, disable poppup menu (disable)
+- Bypass focus tab: Allows you to open other tabs while taking your exam without being detected.
+- Fake camera: Simulates a live camera feed, so you can take the exam without being monitored.
+- ~~Save session: Automatically saves your exam progress, so you can resume later if needed.~~
 
 ![Example](.example/p.png "Main menu")
 
-## How to install?
-U need exntension which can run custom script, here is a small list of similar ext:
-- Violentmonkey (recommend)
-- Greasemonkey
-- Tampermonkey
+## Installation
+1. Install the Violentmonkey extension for your browser.
+2. Click the link to the script file and select "Raw" to view the script code.
+3. Click the "Install" button in the Violentmonkey extension.
+4. The script is now installed and will run automatically when you access the proctoring website.
 
-Install one of list ext, and press link to [build](https://github.com/michael2to3/bypass-proctoring-politech-site/releases/download/Beta/index.user.js) release application and apply user script
+**Note:** Use this script at your own risk. It is intended for educational purposes only.
+
+## Usage
+When you access the proctoring website, the script will automatically run and enable the bypass features. Make sure to disable any other extensions that may interfere with the script.
+
+## Support
+If you have any issues or questions, please open a GitHub issue or contact me directly.
 
 ## Development
 
@@ -35,5 +41,6 @@ $ yarn build
 $ yarn lint
 ```
 
-## How to contribute?
-All the information u need is [here](https://docs.github.com/en/get-started/exploring-projects-on-github/finding-ways-to-contribute-to-open-source-on-github)
+## Contributing
+If you would like to contribute to the development of this script, please fork the repository and submit a pull request.
+
